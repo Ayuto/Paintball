@@ -86,7 +86,7 @@ def prepare_materials():
         materials.add('paintball/%s.vmt'% f.namebase)
 
         # Add the file to the download table
-        #dl.add(str('materials/paintball/' + f.basename()))
+        dl.add(str('materials/paintball/' + f.basename()))
 
     return tuple(materials)
 
