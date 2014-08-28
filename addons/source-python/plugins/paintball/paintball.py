@@ -7,18 +7,18 @@
 import random
 
 # Source.Python
-from paths     import GAME_PATH
-from events    import Event
-from effects   import TempEntities
-from mathlib   import Vector
-from downloads import Downloadables
+from paths   import GAME_PATH
+from events  import Event
+from effects import temp_entities
+from mathlib import Vector
 
 from cvars import ConVar
 from cvars.flags import ConVarFlags
 
-from plugins.info       import PluginInfo
-from engines.server     import EngineServer
-from filters.recipients import RecipientFilter
+from plugins.info           import PluginInfo
+from engines.server         import engine_server
+from filters.recipients     import RecipientFilter
+from stringtables.downloads import Downloadables
 
 
 # =============================================================================
@@ -29,7 +29,7 @@ info.author = 'Ayuto'
 info.basename = 'paintball'
 info.name = 'Paintball'
 info.description = 'Adds paintball effects to the game.'
-info.version = '1.0'
+info.version = '1.1'
 info.url = 'http://www.sourcepython.com/index.php'
 
 ConVar('paintball_version', info.version, ConVarFlags.NOTIFY, info.description)
@@ -54,7 +54,7 @@ def bullet_impact(event):
     Gets called whenever a bullet hits something.
     '''
 
-    TempEntities.world_decal(
+    temp_entities.world_decal(
         # Show the decal to all players
         RecipientFilter(),
 
@@ -66,7 +66,7 @@ def bullet_impact(event):
 
         # Choose a random paintball material and precache it. It will return
         # an index.
-        EngineServer.precache_decal(random.choice(materials))
+        engine_server.precache_decal(random.choice(materials))
     )
 
 
