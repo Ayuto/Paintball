@@ -12,8 +12,7 @@ from events  import Event
 from effects import temp_entities
 from mathlib import Vector
 
-from cvars import ConVar
-from cvars.flags import ConVarFlags
+from cvars.public import PublicConVar
 
 from plugins.info           import PluginInfo
 from engines.server         import engine_server
@@ -32,7 +31,7 @@ info.description = 'Adds paintball effects to the game.'
 info.version = '1.1'
 info.url = 'http://www.sourcepython.com/index.php'
 
-ConVar('paintball_version', info.version, ConVarFlags.NOTIFY, info.description)
+PublicConVar('paintball_version', info.version, description=info.description)
 
 
 # =============================================================================
@@ -48,7 +47,7 @@ dl = Downloadables()
 # =============================================================================
 # >> GAME EVENTS
 # =============================================================================
-@Event
+@Event('bullet_impact')
 def bullet_impact(event):
     '''
     Gets called whenever a bullet hits something.
