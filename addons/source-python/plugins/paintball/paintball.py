@@ -9,14 +9,12 @@ import random
 # Source.Python
 from paths   import GAME_PATH
 from events  import Event
-from effects import temp_entities
 from mathlib import Vector
 
-from cvars.public import PublicConVar
-
+from cvars.public           import PublicConVar
+from effects.base           import TempEntity
 from plugins.info           import PluginInfo
 from engines.server         import engine_server
-from filters.recipients     import RecipientFilter
 from stringtables.downloads import Downloadables
 
 
@@ -28,7 +26,7 @@ info.author = 'Ayuto'
 info.basename = 'paintball'
 info.name = 'Paintball'
 info.description = 'Adds paintball effects to the game.'
-info.version = '1.1'
+info.version = '1.2'
 info.url = 'http://www.sourcepython.com/index.php'
 
 PublicConVar('paintball_version', info.version, description=info.description)
@@ -49,34 +47,25 @@ dl = Downloadables()
 # =============================================================================
 @Event('bullet_impact')
 def bullet_impact(event):
-    '''
-    Gets called whenever a bullet hits something.
-    '''
+    """Called whenever a bullet hits something."""
+    entity = TempEntity('World Decal')
 
-    temp_entities.world_decal(
-        # Show the decal to all players
-        RecipientFilter(),
+    # Create the decal at the impact location
+    entity.origin = Vector(*tuple(event.get_float(key) for key in 'xyz'))
 
-        # Create it without a delay
-        0,
+    # Choose a random paintball material and precache it. It will return an
+    # index.
+    entity.decal_index = engine_server.precache_decal(random.choice(materials))
 
-        # Create the decal at the impact location
-        Vector(*tuple(event.get_float(key) for key in 'xyz')),
-
-        # Choose a random paintball material and precache it. It will return
-        # an index.
-        engine_server.precache_decal(random.choice(materials))
-    )
+    entity.create()
 
 
 # =============================================================================
 # >> FUNCTIONS
 # =============================================================================
 def prepare_materials():
-    '''
-    Adds all found paintball materials to the download table and returns the
-    added material names as a tuple.
-    '''
+    """Adds all found paintball materials to the download table and returns
+    the added material names as a tuple."""
 
     materials = set()
 
