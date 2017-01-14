@@ -7,29 +7,13 @@
 import random
 
 # Source.Python
-from paths   import GAME_PATH
-from events  import Event
+from paths import GAME_PATH
+from events import Event
 from mathlib import Vector
 
-from cvars.public           import PublicConVar
-from effects.base           import TempEntity
-from plugins.info           import PluginInfo
-from engines.server         import engine_server
+from effects.base import TempEntity
+from engines.server import engine_server
 from stringtables.downloads import Downloadables
-
-
-# =============================================================================
-# >> PLUGIN INFORMATION
-# =============================================================================
-info = PluginInfo()
-info.author = 'Ayuto'
-info.basename = 'paintball'
-info.name = 'Paintball'
-info.description = 'Adds paintball effects to the game.'
-info.version = '1.2'
-info.url = 'http://www.sourcepython.com/index.php'
-
-PublicConVar('paintball_version', info.version, description=info.description)
 
 
 # =============================================================================
@@ -66,7 +50,6 @@ def bullet_impact(event):
 def prepare_materials():
     """Adds all found paintball materials to the download table and returns
     the added material names as a tuple."""
-
     materials = set()
 
     # Loop through all paintball material files
