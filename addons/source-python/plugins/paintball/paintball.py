@@ -54,10 +54,10 @@ def prepare_materials():
 
     # Loop through all paintball material files
     for f in PAINTBALL_MATERIALS.files():
-        materials.add('paintball/%s.vmt'% f.namebase)
+        materials.add(f'paintball/{f.stem}.vmt')
 
         # Add the file to the download table
-        dl.add(str('materials/paintball/' + f.basename()))
+        dl.add(str(f'materials/paintball/{f.name}')))
 
     return tuple(materials)
 
